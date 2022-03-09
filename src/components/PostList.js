@@ -1,8 +1,8 @@
 import React from "react";
 import {connect} from "react-redux";
-import {selectSong} from "../actions";
+import {getPosts} from "../actions";
 
-function SongList ({songs, selectSong}) {
+function PostList ({songs, selectSong}) {
     return (
         <div className='ui divided list'>
             {
@@ -27,8 +27,8 @@ const mapStateToProps = state => {
 }
 
 const mapDispatchToProps = {
-    selectSong
+    getPosts
 };
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(SongList);
+export default connect(mapStateToProps, mapDispatchToProps)(PostList);
