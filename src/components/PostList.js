@@ -1,33 +1,42 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {getPosts} from "../actions";
+import {getPostsAndUsers} from "../actions";
+import UserHeader from "./UserHeader";
 
-function PostList ({songs, selectSong}) {
-    return (
-        <div className='ui divided list'>
-            {
-                songs.map( song => (
-                    <div className='item' key={song.title}>
-                        <div className="right floated content">
-                            <button className="ui button primary" onClick={() => selectSong(song)}>
-                                Select
-                            </button>
-                        </div>
-                        <div className="content"> {song.title} </div>
-                        {/*<p> <b>Title: </b>  <b>Duration: </b> {song.duration}</p>*/}
+function PostList ( {posts, getPostsAndUsers}) {
+    useEffect(() => {
+        getPostsAndUsers();
+    }, [getPostsAndUsers]);
+
+    let data = <p>No posts yet</p>;
+    if (posts.length) {
+        data = posts.map( post => (
+            <div className='item' key={post.id}>
+                <i className="large middle aligned icon user" />
+                <div className="content">
+                    <div className="description">
+                        <h2>{post.title}</h2>
+                        <p>{post.body}</p>
                     </div>
-                ))
-            }
+                    <UserHeader userId={post.userId} />
+                </div>
+            </div>
+        ));
+    }
+
+    return (
+        <div className='ui relaxed divided list'>
+            { data }
         </div>
     );
 }
 
 const mapStateToProps = state => {
-    return { songs: state.songs  };
+    return { posts: state.posts  };
 }
 
 const mapDispatchToProps = {
-    getPosts
+    getPostsAndUsers
 };
 
 
